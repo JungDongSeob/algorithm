@@ -2,30 +2,25 @@ import java.util.*;
 class Solution {
     public int solution(int[] citations) {
         int answer = 0;
-        Integer[] hIndexArr = new Integer[citations.length];
-        
-        
+                Integer[] newArr = new Integer[citations.length];
         for(int j=0; j<citations.length; j++){
-            hIndexArr[j]=Integer.valueOf(citations[j]);
+            newArr[j] = citations[j];
         }
-        Arrays.sort(hIndexArr, Collections.reverseOrder());
+
+        Arrays.sort(newArr, Collections.reverseOrder());
         /*
-        내림차순정렬
-         6      5       3       1       0
-        h = 0 h = 1   h = 2   h = 3
-        h = 1 h = 2   h = 3   h = 3
-        h = 0이고 편당 +1
-        citations[h]가 h이상일경우
-        h= h+1이고 반복
+        citations[i] 번 이상 인용된 논문 h이상이면 최대값은 h이다.
+        6       5       3       1       0
+        i=0     i=1     i=2     
+        i=1     i=2     i=3
         */
-        for(int i=0; i<citations.length;i++){
-            if(hIndexArr[i] > answer){
+        for(int i=0; i<newArr.length; i++){
+            if(newArr[i]>i){
                 answer++;
             }else{
                 break;
             }
         }
-
         
         return answer;
     }
