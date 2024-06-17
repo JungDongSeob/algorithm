@@ -1,8 +1,10 @@
+import java.util.HashMap;
+
 class Solution {
     public int[] solution(String[] keymap, String[] targets) {
         int[] answer = new int[targets.length];
         int max = 0;
-        int keynum;
+        HashMap<Character, Integer> map = new HashMap<>();
         
         for(int i = 0; i < keymap.length; i++){
             if(max < keymap[i].length()){
@@ -10,35 +12,26 @@ class Solution {
             }
         }
         
-        for(int i = 0; i < targets.length; i++){
-            
-            for(int l = 0; l < targets[i].length(); l++){
-                keynum = 0;
-                for(int j = 0; j < max; j++){
-                    
-                    for(int k = 0; k < keymap.length; k++){
-                        
-                        if(j < keymap[k].length() && keymap[k].charAt(j) == targets[i].charAt(l)){
-                            System.out.print(keymap[k].charAt(j) + " ");
-                            keynum = j+1;
-                        }
-                        
-                    }
-                    
-                    if(keynum > 0){
-                        break;
-                    }
-                }
-                if(keynum == 0){
-                    answer[i] = -1;
-                    break;
-                }else{
-                    answer[i] = answer[i] + keynum;
+        for(int i = 0; i < max; i++){
+            for(int j = 0; j < keymap.length; j++){
+                if(i < keymap[j].length() && !map.containsKey(keymap[j].charAt(i))){
+                    map.put(keymap[j].charAt(i), i+1);
                 }
             }
         }
-
-        
+        for(Character nc : map.keySet()){
+            System.out.print(nc + " ");
+        }
+        for(int i = 0; i < targets.length; i++){
+            for(int j = 0; j < targets[i].length(); j++){
+                if(map.containsKey(targets[i].charAt(j))){
+                    answer[i] = answer[i] + map.get(targets[i].charAt(j));
+                }else{
+                    answer[i] = -1;
+                    break;
+                }
+            }
+        }
         return answer;
     }
 }
