@@ -1,23 +1,21 @@
 class Solution {
     public long[] solution(long[] numbers) {
         long[] answer = new long[numbers.length];
-
-        for(int i=0; i<numbers.length; i++){
-            String bStr =  Long.toBinaryString(numbers[i]);
-            if(numbers[i]%2==0){
+        for(int i = 0; i < numbers.length; i++){
+            if(numbers[i] % 2 ==0)
                 answer[i] = numbers[i]+1;
-            }else{
-                int lstIdx =  bStr.lastIndexOf("0");
-                int _1stIdx = bStr.indexOf("1",lstIdx);
-                if(lstIdx==-1){
-                    bStr = Long.toBinaryString(numbers[i]+1);
-                    bStr = bStr.substring(0,2) + bStr.substring(2, bStr.length()).replace("0","1");
-
+            else{
+                String s = Long.toString(numbers[i],2);
+                int zeroIdx = s.lastIndexOf("0");
+                if( zeroIdx != -1){
+                  s = s.substring(0, zeroIdx) + "10" + s.substring(zeroIdx+2, s.length());
+                  answer[i] = Long.parseLong(s,2);
                 }else{
-                    bStr = bStr.substring(0, lstIdx) +"1"+ bStr.substring(lstIdx+1, _1stIdx) +"0"+ bStr.substring(_1stIdx+1, bStr.length());
+                   s = "10" + s.substring(1,s.length());
+                   answer[i] = Long.parseLong(s,2);
                 }
-                answer[i] = Long.parseLong(bStr,2);
             }
+    
         }
         return answer;
     }
